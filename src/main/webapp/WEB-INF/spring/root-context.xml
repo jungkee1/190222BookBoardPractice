@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!--namespace 체크할것  -->
+	<!-- poem.xml 에 넣은 것들 잡아 줘야함  -->
+	<!--DB(hikariCP), mybtis, transaction, mapping(필요하다면)  -->
+	
+	<!--DB설정 hikariCP -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+			<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+			<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe"></property>
+			<property name="username" value="spring"></property>
+			<property name="password" value="spring"></property>
+	</bean>
+	
+	<!--hikariCP configuration  -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+			<constructor-arg ref="hikariConfig"/>
+	</bean>
+	
+	<!--mybaits  이것만 잡아줘도됨 -> 이유는 service 단에서 바로 함수 써서 xml단에서 id 받아서 실행-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- transaction :연이어진 작업이 성공적으로 되던지 실패하게되면 아예 롤백 시켜버리던지 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/> 
+		
+</beans>
