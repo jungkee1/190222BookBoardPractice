@@ -23,6 +23,7 @@
 	
 	<!--annotation 참조할 곳  -->
 	<context:component-scan base-package="org.zerock.book" />
+	<context:component-scan base-package="org.zerock.service" />
 	
 	
 	

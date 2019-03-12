@@ -28,7 +28,7 @@ public class HomeController {
 		
 
 		
-		return "redirect:listPractice"; //자동으로 .jsp로 가게 해놈
+		return "redirect:list"; //자동으로 .jsp로 가게 해놈
 	}
 	
 }

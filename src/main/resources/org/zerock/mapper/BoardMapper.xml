@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.BoardMapper">
+
+<!--게시글 추가하기  -->
+<insert id="write">
+	insert into springboard  values(seq_board.nextval,#{title},#{content},null,sysdate,0,#{password},0,0,0,sysdate,0)
+</insert>
+
+<!--게시글 전체보기  -->
+<select id="list" resultType="org.zerock.domain.BoardVO">
+	select seq,title,writer,regdate,hitcount,updatedate,replycnt from springboard 
+</select>
+
+<!--게시글 상세보기  -->
+<select id="detail" resultType="org.zerock.domain.BoardVO">
+	select seq,title,content,writer,regdate,updatedate, replycnt from springboard  where seq = #{seq}
+</select>
+
+<!--게시글 삭제하기  -->
+<delete id="delete">
+	delete springboard where seq = #{seq}
+</delete>
+
+<!-- 게시글 수정하기용 퍼올리기  -->
+<select id="updateForm" resultType="org.zerock.domain.BoardVO">
+	select seq,title,content,writer,regdate,updatedate, replycnt from springboard  where seq = #{seq}
+</select>
+
+<!-- 게시글 수정하기  -->
+<update id="update">
+	update springboard set title=#{title}, content=#{content}, password=#{password}, updatedate=sysdate where seq = #{seq}
+</update>
+</mapper>
